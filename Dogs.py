@@ -1,7 +1,27 @@
 from tkinter import*
+from tkinter import messagebox as mb
 import requests
 from PIL import Image, ImageTk
 from io import BytesIO
+
+from bottle import response
+from pyexpat.errors import messages
+from pygame.examples.cursors import image
+
+
+def show_image():
+    image_url=get_dog_image()
+    if image_url:
+        try:
+            response=requests.get(image_url, stream=True)
+            response.raise_for_status()
+            img_data=BytesIO(response.content)
+            img=Image.open(img_data)
+            img.thumbnail((300,300))# через запятую, т.к. это кортеж
+            label.config(image=img)
+            label.image=img
+        except Exception as e:
+            mb.showerror("ошибка", f"возникла ошибка {e}")
 
 
 
