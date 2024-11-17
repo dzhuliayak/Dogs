@@ -5,12 +5,17 @@ import requests
 from PIL import Image, ImageTk
 from io import BytesIO
 
+from pyexpat.errors import messages
+
 
 def get_dog_image():
     try:
         response=requests.get("https://dog.ceo/api/breeds/image/random")# функция response будет JSON
         response.raise_for_status()
         data=response.json()
+        print(data)
+        print(data['message'])
+        print(data['status'])
         return data["message"]#message отражается на сайте с которого мы взяли ссылку
     except Exception as e:
         mb.showerror("ошибка", f"возникла ошибка {e} при запросе к API")
@@ -61,11 +66,13 @@ width_label=ttk.Label(text="ширина")
 width_label.pack(side="left", pady=(10,0))
 width_spinbox=ttk.Spinbox(from_=200, to=500, increment=50, width=5)
 width_spinbox.pack(side="left", pady=(0,10))
+width_spinbox.set(300)# начальные размеры ширины изображения по умолчанию, чтобы не выскакивала ошибка
 
 height_label=ttk.Label(text="высота:")
 height_label.pack(side="left", pady=(10,0))
 height_spinbox=ttk.Spinbox(from_=200, to=500, increment=50, width=5)
 height_spinbox.pack(side="left", pady=(0,10))
+height_spinbox.set(300)## начальные размеры высоты изображения по умолчанию, чтобы не выскакивала ошибка
 
 top_level_window=Toplevel(window)
 top_level_window.title("изображение собачек")
