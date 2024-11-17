@@ -6,7 +6,6 @@ from PIL import Image, ImageTk
 from io import BytesIO
 
 
-
 def get_dog_image():
     try:
         response=requests.get("https://dog.ceo/api/breeds/image/random")# функция response будет JSON
@@ -43,9 +42,6 @@ def prog():
     progress.start(30)
     window.after(3000, show_image)
 
-
-
-
 window=Tk()
 window.title("картинки с собачкой")
 window.geometry("360x420")
@@ -70,6 +66,3 @@ height_spinbox=ttk.Spinbox(from_=200, to=500, increment=50, width=5)
 height_spinbox.pack(side="left", pady=(0,10))
 
 window.mainloop()
-
-
-
