@@ -9,6 +9,16 @@ from pyexpat.errors import messages
 from pygame.examples.cursors import image
 
 
+def get_dog_image():
+    try:
+        response=requests.get("https://dog.ceo/api/breeds/image/random")# функция response будет JSON
+        response.raise_for_status()
+        data=response.json()
+        return data("message")#message отражается на сайте с которого мы взяли ссылку
+    except Exception as e:
+        mb.showerror("ошибка", f"возникла ошибка {e} при запросе к API")
+        return None
+
 def show_image():
     image_url=get_dog_image()
     if image_url:
@@ -18,10 +28,13 @@ def show_image():
             img_data=BytesIO(response.content)
             img=Image.open(img_data)
             img.thumbnail((300,300))# через запятую, т.к. это кортеж
+            img=ImageTk.PhotoImage()
+
             label.config(image=img)
             label.image=img
         except Exception as e:
-            mb.showerror("ошибка", f"возникла ошибка {e}")
+            mb.showerror("ошибка", f"возникла ошибка {e} при загрузке изображения")
+            return None
 
 
 
